@@ -1,5 +1,6 @@
 <?php
-  if(count($_POST) != 5){
+  if(count($_POST) != 7){
+    echo "die";
     die();
   }
   include("functions.php");
@@ -8,10 +9,21 @@
   $megnevezes_reszlet = $_POST["megnevezes_reszlet"];
   $kiadas_eve = $_POST["kiadas_eve"];
   $felvitel_napja = $_POST["felvitel_napja"];
+  $minlimimit = $_POST["minlimimit"];
+  $maxlimit = $_POST["maxlimit"];
   $where = szoftver_szures($szerzo_id, $szoftver_azonosito_eleje, $megnevezes_reszlet, $kiadas_eve, $felvitel_napja);
-  $sql = "SELECT DISTINCT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, szerzo.szerzo_id FROM szoftver INNER JOIN szoftver_szerzoje LEFT JOIN szerzo ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito AND szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where;
-  $stmt = $db->query($sql);
-  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $sql = "SELECT DISTINCT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, szerzo.szerzo_id
+    FROM szoftver INNER JOIN szoftver_szerzoje
+    LEFT JOIN szerzo ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito
+    AND szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
+    ." LIMIT ".$minlimimit.",".$maxlimit;
+    try{
+      $stmt = $db->query($sql);
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch(Exception $e){
+      echo $e;
+    }
+
   $response = array();
   $i = 0;
   foreach ($result as $row) {

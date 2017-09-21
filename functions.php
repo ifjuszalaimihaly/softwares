@@ -61,7 +61,6 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
   if(strlen($where) != 0){
     $where = " WHERE ".$where;
   }
-  //echo $where;
   return $where;
 }
 ?>

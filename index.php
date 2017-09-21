@@ -63,11 +63,11 @@
         </table>
         <div style="font-size: 24px; line-height: 1.5em;">
           <div class="col-xs-1">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <i id="left-arrow" class="fa fa-arrow-left" aria-hidden="true"></i>
           </div>
-          <div class="col-xs-10" style="text-align: center;">1. oldal</div>
+          <div class="col-xs-10" id="page-div" style="text-align: center;"></div>
           <div class="col-xs-1" style="float: right;">
-            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            <i  id="right-arrow" class="fa fa-arrow-right" aria-hidden="true"></i>
           </div>
         </div>
       </div>
