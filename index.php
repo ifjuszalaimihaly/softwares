@@ -13,6 +13,7 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
   <div class="container-fluid">
@@ -60,8 +61,18 @@
           <tbody>
           </tbody>
         </table>
+        <div style="font-size: 24px; line-height: 1.5em;">
+          <div class="col-xs-1">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </div>
+          <div class="col-xs-10" style="text-align: center;">1. oldal</div>
+          <div class="col-xs-1" style="float: right;">
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

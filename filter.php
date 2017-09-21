@@ -9,8 +9,7 @@
   $kiadas_eve = $_POST["kiadas_eve"];
   $felvitel_napja = $_POST["felvitel_napja"];
   $where = szoftver_szures($szerzo_id, $szoftver_azonosito_eleje, $megnevezes_reszlet, $kiadas_eve, $felvitel_napja);
-  //var_dump($where);
-  $sql = "SELECT DISTINCT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, szerzo.szerzo_id FROM szoftver INNER JOIN szoftver_szerzoje INNER JOIN szerzo ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito AND szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where;
+  $sql = "SELECT DISTINCT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, szerzo.szerzo_id FROM szoftver INNER JOIN szoftver_szerzoje LEFT JOIN szerzo ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito AND szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where;
   $stmt = $db->query($sql);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $response = array();
