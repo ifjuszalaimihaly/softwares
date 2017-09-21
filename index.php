@@ -14,6 +14,7 @@
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
   <div class="container-fluid">
@@ -52,9 +53,18 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Szoftver azonosító</th>
-              <th>Szoftver megnevezés</th>
-              <th>Kiadás éve</th>
+              <th class="software_id" data-order="asc">Szoftver azonosító
+                <i id="software_id_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
+                <i id="software_id_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
+              </th>
+              <th class="software_name" data-order="desc">Szoftver megnevezés
+                <i id="software_name_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
+                <i id="software_name_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
+              </th>
+              <th class="realese_year" data-order="asc">Kiadás éve
+                <i id="realese_year_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
+                <i id="realese_year_desc"style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
+              </th>
               <th>Szerzők</th>
             </tr>
           </thead>

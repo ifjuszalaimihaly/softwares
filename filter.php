@@ -16,14 +16,9 @@
     FROM szoftver INNER JOIN szoftver_szerzoje
     LEFT JOIN szerzo ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito
     AND szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
-    ." LIMIT ".$minlimimit.",".$maxlimit;
-    try{
-      $stmt = $db->query($sql);
-      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch(Exception $e){
-      echo $e;
-    }
-
+    ." ORDER BY szoftver.szoftver_azonosito ASC, szoftver.megnevezes DESC, szoftver.kiadas_eve ASC LIMIT ".$minlimimit.",".$maxlimit;
+  $stmt = $db->query($sql);
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $response = array();
   $i = 0;
   foreach ($result as $row) {
