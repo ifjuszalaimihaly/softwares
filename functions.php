@@ -12,7 +12,7 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
   $where = "";
   $is_first = true;
   if($szerzo_id != ''){
-      $where .= "szerzo.szerzo_id=".$szerzo_id;
+      $where .= $szerzo_id." in (select sz.szerzo_id from szerzo as sz inner join szoftver_szerzoje as szsz on szsz.szerzo_id=sz.szerzo_id where szsz.szoftver_azonosito = szoftver.szoftver_azonosito)";
       $is_first = false;
   }
   if($szoftver_azonosito_eleje != ''){

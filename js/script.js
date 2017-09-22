@@ -1,5 +1,5 @@
 var page = 1;
-var minlimimit = (page - 1) * 10;
+var minlimit = (page - 1) * 10;
 var maxlimit = page * 10;
 var author_id = $("#author_id").val();
 var software_id = $("#software_id").val();
@@ -7,11 +7,10 @@ var software_name = $("#software_name").val();
 var realese_year = $("#realese_year").val();
 var adding_date = $("#adding_date").val();
 var pagediv = $("#page-div");
-var countresults;
+var currentpage;
 var software_id_order = $("th.software_id").data("order");
 var software_name_order = $("th.software_name").data("order");
 var realese_year_order = $("th.realese_year").data("order");
-var ajaxdata;
 var tablesucces = function(json){
   var tbody = $("tbody");
   tbody.empty();
@@ -22,11 +21,11 @@ var tablesucces = function(json){
       tr.append("<th>" + json[i]["software_id"] + "</th>");
       tr.append("<td>" + json[i]["software_name"] + "</td>");
       tr.append("<td>" + json[i]["realese_year"] + "</td>");
-      tr.append("<td id=td-" + i + ">");
-      for(var j = 0; j < json[i]["authors"].length; j++){
-        $("#td-" + i).append(json[i]["authors"][j]["szerzo_nev"]+"<br/>");
+      if(json[i]["authors"] == null){
+        tr.append("<td></td>");
+      } else {
+        tr.append("<td>" + json[i]["authors"] + "</td>");
       }
-      tr.append("</td>");
     }
   }
 }
@@ -36,21 +35,29 @@ var ajaxfunc = function(url, mode, data){
     type: 'post',
     data: data,
     success: function(result){
+      var json = JSON.parse(result);
       if(mode == "table"){
-        var json = JSON.parse(result);
+          tablesucces(json);
+          pagediv.text(page + ". oldal");
+      }
+      if(mode == "paginate"){
         if(json.length > 0){
           tablesucces(json);
+          page = currentpage;
+          pagediv.text(page + ". oldal");
         }
-        //return json.length;
       }
     }, error: function(){
       console.log("fail");
     }
   });
 };
-var paginate = function (currentpage){
+var paginate = function (distance){
   console.log("paginate");
-  minlimimit = (currentpage - 1) * 10;
+  currentpage = page;
+  currentpage += distance;
+  console.log(currentpage);
+  minlimit = (currentpage - 1) * 10;
   maxlimit = currentpage * 10;
   var data = {
     szerzo_id: $("#author_id").val(),
@@ -59,15 +66,9 @@ var paginate = function (currentpage){
     kiadas_eve: $("#realese_year").val(),
     felvitel_napja: $("#adding_date").val(),
   }
-  data["minlimimit"] = minlimimit;
+  data["minlimit"] = minlimit;
   data["maxlimit"] = maxlimit;
-  var count = ajaxfunc('filter.php','table',data);
-  console.log(ajaxdata);
-  console.log("paginate countresults " + countresults)
-  if(count > 0){
-    page = currentpage;
-    pagediv.text(page + ". oldal");
-  }
+  count = ajaxfunc('filter.php','paginate',data);
 }
 var order = function(column, direction){
   console.log(column + " " + direction);
@@ -82,7 +83,7 @@ $(document).ready(function(){
     megnevezes_reszlet: '',
     kiadas_eve: '',
     felvitel_napja: '',
-    minlimimit: minlimimit,
+    minlimit: minlimit,
     maxlimit: maxlimit
   };
   ajaxfunc('filter.php','table',data);
@@ -95,16 +96,19 @@ $(document).ready(function(){
       kiadas_eve: $("#realese_year").val(),
       felvitel_napja: $("#adding_date").val(),
     }
-    data["minlimimit"] = minlimimit;
+    page = 1;
+    minlimit = (page - 1) * 10;
+    maxlimit = page * 10;
+    data["minlimit"] = minlimit;
     data["maxlimit"] = maxlimit;
     ajaxfunc('filter.php','table',data);
   });
   $("#right-arrow").on("click",function(){
-    paginate(page + 1);
+    paginate(1);
   });
   $("#left-arrow").on("click",function(){
-    if(page > 1){
-      paginate(page - 1);
+    if(page>1){
+      paginate(-1);
     }
   });
   $("#software_id_asc").on("click",function(){
