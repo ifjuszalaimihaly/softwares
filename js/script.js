@@ -11,33 +11,37 @@ var countresults;
 var software_id_order = $("th.software_id").data("order");
 var software_name_order = $("th.software_name").data("order");
 var realese_year_order = $("th.realese_year").data("order");
-var tablesucces = function(result){
+var ajaxdata;
+var tablesucces = function(json){
   var tbody = $("tbody");
   tbody.empty();
-  console.log(result);
-  var json = JSON.parse(result);
-  for(var i = 0; i < json.length; i++){
-    tbody.append("<tr id=tr-" + i + ">");
-    var tr = $("#tr-"+i);
-    tr.append("<th>" + json[i]["software_id"] + "</th>");
-    tr.append("<td>" + json[i]["software_name"] + "</td>");
-    tr.append("<td>" + json[i]["realese_year"] + "</td>");
-    tr.append("<td id=td-" + i + ">");
-    for(var j = 0; j < json[i]["authors"].length; j++){
-      $("#td-" + i).append(json[i]["authors"][j]["szerzo_nev"]+"<br/>");
+  if(json.length > 0){
+    for(var i = 0; i < json.length; i++){
+      tbody.append("<tr id=tr-" + i + ">");
+      var tr = $("#tr-"+i);
+      tr.append("<th>" + json[i]["software_id"] + "</th>");
+      tr.append("<td>" + json[i]["software_name"] + "</td>");
+      tr.append("<td>" + json[i]["realese_year"] + "</td>");
+      tr.append("<td id=td-" + i + ">");
+      for(var j = 0; j < json[i]["authors"].length; j++){
+        $("#td-" + i).append(json[i]["authors"][j]["szerzo_nev"]+"<br/>");
+      }
+      tr.append("</td>");
     }
-    tr.append("</td>");
   }
-  countresults = json.length;
 }
 var ajaxfunc = function(url, mode, data){
-  $.ajax({
+  ajaxdata = $.ajax({
     url: url,
     type: 'post',
     data: data,
     success: function(result){
       if(mode == "table"){
-        tablesucces(result);
+        var json = JSON.parse(result);
+        if(json.length > 0){
+          tablesucces(json);
+        }
+        //return json.length;
       }
     }, error: function(){
       console.log("fail");
@@ -45,6 +49,7 @@ var ajaxfunc = function(url, mode, data){
   });
 };
 var paginate = function (currentpage){
+  console.log("paginate");
   minlimimit = (currentpage - 1) * 10;
   maxlimit = currentpage * 10;
   var data = {
@@ -56,8 +61,10 @@ var paginate = function (currentpage){
   }
   data["minlimimit"] = minlimimit;
   data["maxlimit"] = maxlimit;
-  ajaxfunc('filter.php','table',data);
-  if(countresults > 0){
+  var count = ajaxfunc('filter.php','table',data);
+  console.log(ajaxdata);
+  console.log("paginate countresults " + countresults)
+  if(count > 0){
     page = currentpage;
     pagediv.text(page + ". oldal");
   }
