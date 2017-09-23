@@ -53,15 +53,15 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th class="software_id" data-order="asc">Szoftver azonosító
+              <th class="software_id" data-order="ASC" data-position="0">Szoftver azonosító
                 <i id="software_id_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
                 <i id="software_id_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
               </th>
-              <th class="software_name" data-order="desc">Szoftver megnevezés
+              <th class="software_name" data-order="DESC" data-position="1">Szoftver megnevezés
                 <i id="software_name_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
                 <i id="software_name_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
               </th>
-              <th class="realese_year" data-order="asc">Kiadás éve
+              <th class="realese_year" data-order="ASC" data-position="2">Kiadás éve
                 <i id="realese_year_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
                 <i id="realese_year_desc"style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
               </th>
