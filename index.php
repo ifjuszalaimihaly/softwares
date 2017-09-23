@@ -1,7 +1,7 @@
 <?php
-  include_once("db_config.php");
-  include("functions.php");
-  $authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
+include_once("db_config.php");
+include("functions.php");
+$authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -14,6 +14,7 @@
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -50,36 +51,18 @@
         </form>
       </div>
       <div class="col-md-9">
-        <table class="table table-striped">
+        <table class="table table-striped disp">
           <thead>
             <tr>
-              <th class="software_id" data-order="ASC" data-position="0">Szoftver azonosító
-                <i id="software_id_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
-                <i id="software_id_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
-              </th>
-              <th class="software_name" data-order="DESC" data-position="1">Szoftver megnevezés
-                <i id="software_name_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
-                <i id="software_name_desc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
-              </th>
-              <th class="realese_year" data-order="ASC" data-position="2">Kiadás éve
-                <i id="realese_year_asc" style="font-size:20px; font-weight: blod;" class="fa fa-angle-up"></i>
-                <i id="realese_year_desc"style="font-size:20px; font-weight: blod;" class="fa fa-angle-down"></i>
-              </th>
+              <th class="order" id="th-0">Szoftver azonosító</th>
+              <th class="order" id="th-1">Szoftver megnevezés</th>
+              <th class="order" id="th-2">Kiadás éve</th>
               <th>Szerzők</th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
-        <div style="font-size: 24px; line-height: 1.5em;">
-          <div class="col-xs-1">
-            <i id="left-arrow" class="fa fa-arrow-left" aria-hidden="true"></i>
-          </div>
-          <div class="col-xs-10" id="page-div" style="text-align: center;"></div>
-          <div class="col-xs-1" style="float: right;">
-            <i  id="right-arrow" class="fa fa-arrow-right" aria-hidden="true"></i>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -89,6 +72,27 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+  <script>
+  window.datatable = $("table").DataTable({
+    searching: false,
+    paging:   false,
+    bInfo : false,
+    columns:
+    [
+      {"orderable": true},
+      {"orderable": true},
+      {"orderable": true},
+      {"orderable": false}
+    ],
+    language: {
+      "lengthMenu": "_MENU_ sor megjelenítése oldalanként",
+      "infoEmpty": "Nincs elérhető adat a táblázatban",
+      "zeroRecords": "Nincs megjeleníthető adat",
+    }
+  });
+  </script>
   <script src="js/script.js"></script>
 </body>
 </html>
