@@ -16,9 +16,7 @@ var tablesucces = function(json){
         json[i]["authors"]
       ]);
     }
-    //console.log("1 orderarray 0 " + orderarray[0]);
     datatable.order(orderarray);
-    //console.log("1 orderarray 0 " + orderarray[0]);
     //arrayposnull = 0;
     datatable.draw();
   }
@@ -57,6 +55,13 @@ var tablesucces = function(json){
       }
     }
     console.log(index);
+    var nullelement = array[index];
+    if(nullelement[1] == "asc"){
+      nullelement[1] = "desc";
+    } else if (nullelement[1] == "desc") {
+      nullelement[1] = "asc";
+    }
+    console.log("nullelement " + nullelement);
     if(index == 0){
       return array;
     }
@@ -69,8 +74,8 @@ var tablesucces = function(json){
         j++;
       }
     }
-    var nullelement = array[index];
-    console.log("nullelement " + nullelement);
+
+
     console.log(copyarray);
     returnarray = [];
     returnarray[0] = nullelement;
@@ -79,48 +84,6 @@ var tablesucces = function(json){
     }
     console.log("returnarray " + returnarray);
     return returnarray;
-    /*if(position == 0){
-      if(orderarray[0][0] == 0){
-        return;
-      } else {
-        var newbeginitem;
-        for(var i = 0; i < orderarray.length; i++){
-          if(orderarray[i][0] == position) {
-            console.log("orderarray[i][0] " + orderarray[i][0] + " position " + position);
-            newbeginitem = orderarray[i];
-            break;
-          }
-        }
-        console.log("new begin item " + newbeginitem.toString());
-      }
-    }
-    if(position != orderarray[0][0]){
-      console.log("not equals");
-      var j = 0;
-      var copyarray = [];
-      for(var i = 0; i < orderarray.length; i++){
-        if(i != position){
-          copyarray[j] = orderarray[i];
-          j++;
-        }
-      }
-      var newbeginitem;
-      for(var i = 0; i < orderarray.length; i++){
-        if(orderarray[i][0] == position) {
-          console.log("orderarray[i][0] " + orderarray[i][0] + " position " + position);
-          newbeginitem = orderarray[i];
-          break;
-        }
-      }
-      orderarray = [];
-      orderarray[0] = newbeginitem;
-      for(var i = 0; i < copyarray.length; i++){
-        orderarray[i+1] = copyarray[i];
-      }
-    }
-    //arrayposnull = position;
-    console.log(arrayposnull);
-    console.log(orderarray.toString());*/
   }
   $(document).ready(function(){
     var data = {
@@ -145,7 +108,6 @@ var tablesucces = function(json){
     $("#th-0").on("click",function(){
       ///console.log(arrayposnull);
       //console.log(orderarray.toString());
-      //if(arrayposnull[0] != 0){
       orderarray = order(orderarray,0);
 
       datatable.order(orderarray);
