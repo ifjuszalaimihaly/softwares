@@ -21,7 +21,7 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
       } else {
         $where .= $and."szoftver.szoftver_azonosito LIKE '".$szoftver_azonosito_eleje."%'";
       }
-      $is_first = true;
+      $is_first = false;
   }
   if($megnevezes_reszlet != ''){
     if($is_first){
@@ -29,7 +29,7 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
     } else{
       $where .= $and."szoftver.megnevezes LIKE '%".$megnevezes_reszlet."%'";
     }
-    $is_first = true;
+    $is_first = false;
   }
   if($kiadas_eve != ''){
     if(strlen($kiadas_eve) == 4) {
@@ -43,12 +43,12 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
       $begin = substr($kiadas_eve,0,4);
       $end = substr($kiadas_eve,5,4);
       if($is_first){
-        $where .= "szoftver.kiadas_eve BETWEEN ".$begin.$and.$end;
+        $where .= "szoftver.kiadas_eve BETWEEN".$begin.$and.$end;
       } else {
         $where .= $and."szoftver.kiadas_eve ".$begin." BETWEEN ".$and.$end;
       }
     }
-    $is_first = true;
+    $is_first = false;
   }
   if($felvitel_napja != ''){
     if($is_first){
@@ -56,7 +56,7 @@ function szoftver_szures($szerzo_id='', $szoftver_azonosito_eleje='', $megneveze
     } else {
       $where .= $and."szoftver.felvitel_idopontja LIKE '".$felvitel_napja."%'";
     }
-    $is_first = true;
+    $is_first = false;
   }
   if(strlen($where) != 0){
     $where = " WHERE ".$where;

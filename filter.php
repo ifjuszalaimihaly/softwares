@@ -18,10 +18,10 @@ if($szerzo_id != ''){
 $where = szoftver_szures($szerzo_id, $szoftver_azonosito_eleje, $megnevezes_reszlet, $kiadas_eve, $felvitel_napja);
 $sql = '';
 if($szerzo_nev_help != ''){
-  $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR '<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
+  $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR ',<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
   ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve HAVING szerzok LIKE '%".$szerzo_nev."%'";
 } else {
-  $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR '<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
+  $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR ',<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
   ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve";
 }
 $stmt = $db->query($sql);

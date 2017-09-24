@@ -1,8 +1,3 @@
-<?php
-include_once("db_config.php");
-include("functions.php");
-$authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
-?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -19,16 +14,13 @@ $authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
 </head>
 <body>
   <div class="container-fluid">
+    <h1>Szoftverek szűrése</h1>
     <div class="row">
       <div class="col-md-3">
         <form class="form">
           <div class="form-group">
             <label>Szerző</label>
             <select id="author_id" class="form-control">
-              <<option value=""></option>
-              <?php foreach ($authors as $author): ?>
-                <option value="<?= $author["szerzo_id"] ?>"><?= $author["szerzo_nev"] ?></option>
-              <?php endforeach; ?>
             </select>
           </div>
           <div class="form-group">
@@ -77,8 +69,6 @@ $authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
   <script>
   window.datatable = $("table").DataTable({
     searching: false,
-    paging:   false,
-    bInfo : false,
     columns:
     [
       {"orderable": true},
@@ -89,7 +79,14 @@ $authors = query($db,"SELECT * FROM szerzo ORDER BY szerzo_nev");
     language: {
       "lengthMenu": "_MENU_ sor megjelenítése oldalanként",
       "infoEmpty": "Nincs elérhető adat a táblázatban",
+      "info":           "_START_ és _END_ közötti elemek megejelíntése, összesen: _TOTAL_ elem",
       "zeroRecords": "Nincs megjeleníthető adat",
+      "paginate": {
+        "first":      "Első",
+        "last":       "Utolsó",
+        "next":       "Következő",
+        "previous":   "Előző"
+    },
     }
   });
   </script>
