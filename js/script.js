@@ -3,6 +3,8 @@ var software_id = $("#software_id").val();
 var software_name = $("#software_name").val();
 var realese_year = $("#realese_year").val();
 var adding_date = $("#adding_date").val();
+var orderarray = [[0,'asc'],[1,'desc'],[2,'asc']];
+var arrayposnull;
 var tablesucces = function(json){
   datatable.clear();
   for(var i = 0; i < json.length; i++){
@@ -14,6 +16,10 @@ var tablesucces = function(json){
         json[i]["authors"]
       ]);
     }
+    //console.log("1 orderarray 0 " + orderarray[0]);
+    datatable.order(orderarray);
+    //console.log("1 orderarray 0 " + orderarray[0]);
+    //arrayposnull = 0;
     datatable.draw();
   }
   var selectcussess = function(json){
@@ -29,7 +35,6 @@ var tablesucces = function(json){
       type: method,
       data: data,
       success: function(result){
-        console.log(result);
         var json = JSON.parse(result);
         if(mode == "table"){
           tablesucces(json);
@@ -42,6 +47,81 @@ var tablesucces = function(json){
       }
     });
   };
+  var order = function(array, position){
+    console.log("order");
+    var index;
+    for(var i = 0; i< array.length; i++){
+      console.log(array[i][0] + " " + position);
+      if(array[i][0] == position){
+        index = i;
+      }
+    }
+    console.log(index);
+    if(index == 0){
+      return array;
+    }
+    var copyarray = [];
+    var j = 0;
+    for(var i = 0; i< array.length; i++){
+      console.log("i index " + i + " " + index);
+      if(i != index){
+        copyarray[j] = array[i];
+        j++;
+      }
+    }
+    var nullelement = array[index];
+    console.log("nullelement " + nullelement);
+    console.log(copyarray);
+    returnarray = [];
+    returnarray[0] = nullelement;
+    for(var i = 0; i < copyarray.length; i++){
+      returnarray[i+1] = copyarray[i];
+    }
+    console.log("returnarray " + returnarray);
+    return returnarray;
+    /*if(position == 0){
+      if(orderarray[0][0] == 0){
+        return;
+      } else {
+        var newbeginitem;
+        for(var i = 0; i < orderarray.length; i++){
+          if(orderarray[i][0] == position) {
+            console.log("orderarray[i][0] " + orderarray[i][0] + " position " + position);
+            newbeginitem = orderarray[i];
+            break;
+          }
+        }
+        console.log("new begin item " + newbeginitem.toString());
+      }
+    }
+    if(position != orderarray[0][0]){
+      console.log("not equals");
+      var j = 0;
+      var copyarray = [];
+      for(var i = 0; i < orderarray.length; i++){
+        if(i != position){
+          copyarray[j] = orderarray[i];
+          j++;
+        }
+      }
+      var newbeginitem;
+      for(var i = 0; i < orderarray.length; i++){
+        if(orderarray[i][0] == position) {
+          console.log("orderarray[i][0] " + orderarray[i][0] + " position " + position);
+          newbeginitem = orderarray[i];
+          break;
+        }
+      }
+      orderarray = [];
+      orderarray[0] = newbeginitem;
+      for(var i = 0; i < copyarray.length; i++){
+        orderarray[i+1] = copyarray[i];
+      }
+    }
+    //arrayposnull = position;
+    console.log(arrayposnull);
+    console.log(orderarray.toString());*/
+  }
   $(document).ready(function(){
     var data = {
       szerzo_id: '',
@@ -61,5 +141,30 @@ var tablesucces = function(json){
         felvitel_napja: $("#adding_date").val(),
       }
       ajaxfunc('filter.php','post','table',data);
+    });
+    $("#th-0").on("click",function(){
+      ///console.log(arrayposnull);
+      //console.log(orderarray.toString());
+      //if(arrayposnull[0] != 0){
+      orderarray = order(orderarray,0);
+
+      datatable.order(orderarray);
+      datatable.draw();
+    });
+    $("#th-1").on("click",function(){
+      //console.log(arrayposnull);
+      //console.log(orderarray.toString());
+      //if(arrayposnull[0] != 1){
+      orderarray = order(orderarray,1);
+      datatable.order(orderarray);
+      datatable.draw();
+    });
+    $("#th-2").on("click",function(){
+      //console.log(arrayposnull);
+      //console.log(orderarray.toString());
+      //if(arrayposnull[0] != 2){
+      orderarray = order(orderarray,2);
+      datatable.order(orderarray);
+      datatable.draw();
     });
   });
