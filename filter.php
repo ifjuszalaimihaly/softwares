@@ -1,5 +1,5 @@
 <?php
-if(count($_POST) != 5){
+if(count($_POST) != 7){
   echo "die";
   die();
 }
@@ -9,6 +9,8 @@ $szoftver_azonosito_eleje = $_POST["szoftver_azonosito_eleje"];
 $megnevezes_reszlet = $_POST["megnevezes_reszlet"];
 $kiadas_eve = $_POST["kiadas_eve"];
 $felvitel_napja = $_POST["felvitel_napja"];
+$minlimit = $_POST["minlimit"];
+$maxlimit = $_POST["maxlimit"];
 $szerzo_nev="";
 $szerzo_nev_help ="";
 if($szerzo_id != ''){
@@ -19,10 +21,10 @@ $where = szoftver_szures($szerzo_id, $szoftver_azonosito_eleje, $megnevezes_resz
 $sql = '';
 if($szerzo_nev_help != ''){
   $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR ',<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
-  ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve HAVING szerzok LIKE '%".$szerzo_nev."%'";
+  ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve HAVING szerzok LIKE '%".$szerzo_nev."%' LIMIT ".$minlimit.",".$maxlimit;
 } else {
   $sql = "SELECT szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve, group_concat(szerzo_nev SEPARATOR ',<br>') as szerzok FROM szoftver LEFT JOIN szoftver_szerzoje ON szoftver.szoftver_azonosito = szoftver_szerzoje.szoftver_azonosito LEFT JOIN szerzo ON szoftver_szerzoje.szerzo_id = szerzo.szerzo_id ".$where
-  ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve";
+  ." GROUP by szoftver.szoftver_azonosito, szoftver.megnevezes, szoftver.kiadas_eve LIMIT ".$minlimit.",".$maxlimit;
 }
 $stmt = $db->query($sql);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

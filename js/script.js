@@ -1,10 +1,14 @@
+var page = 1;
+var minlimit = (page - 1) * 10;
+var maxlimit = 10;
+var currentpage;
+var pagediv = $("#pagediv");
 var author_id = $("#author_id").val();
 var software_id = $("#software_id").val();
 var software_name = $("#software_name").val();
 var realese_year = $("#realese_year").val();
 var adding_date = $("#adding_date").val();
 var orderarray = [[0,'asc'],[1,'desc'],[2,'asc']];
-var arrayposnull;
 var tablesucces = function(json){
   datatable.clear();
   for(var i = 0; i < json.length; i++){
@@ -17,7 +21,6 @@ var tablesucces = function(json){
       ]);
     }
     datatable.order(orderarray);
-    //arrayposnull = 0;
     datatable.draw();
   }
   var selectcussess = function(json){
@@ -34,8 +37,21 @@ var tablesucces = function(json){
       data: data,
       success: function(result){
         var json = JSON.parse(result);
+
         if(mode == "table"){
+          console.log(result)
           tablesucces(json);
+          console.log("page " + page);
+          pagediv.text(page + ". oldal");
+        }
+        if(mode ==  "paginate"){
+          console.log(json.length);
+          if(json.length != 0){
+            tablesucces(json);
+            page = currentpage;
+            console.log(minlimit + " " + maxlimit);
+            pagediv.text(page + ". oldal");
+        }
         }
         if(mode == "select"){
           selectcussess(json);
@@ -44,6 +60,24 @@ var tablesucces = function(json){
         console.log("fail");
       }
     });
+  };
+  var paginate = function (distance){
+    console.log("paginate");
+    currentpage = page;
+    currentpage += distance;
+    console.log(currentpage);
+    minlimit = (currentpage - 1) * 10;
+    maxlimit = 10;
+    var data = {
+      szerzo_id: $("#author_id").val(),
+      szoftver_azonosito_eleje: $("#software_id").val(),
+      megnevezes_reszlet: $("#software_name").val(),
+      kiadas_eve: $("#realese_year").val(),
+      felvitel_napja: $("#adding_date").val(),
+      minlimit: minlimit,
+      maxlimit: maxlimit,
+    }
+    ajaxfunc('filter.php','post','paginate',data);
   };
   var order = function(array, position){
     console.log("order");
@@ -74,8 +108,6 @@ var tablesucces = function(json){
         j++;
       }
     }
-
-
     console.log(copyarray);
     returnarray = [];
     returnarray[0] = nullelement;
@@ -91,10 +123,15 @@ var tablesucces = function(json){
       szoftver_azonosito_eleje: '',
       megnevezes_reszlet: '',
       kiadas_eve: '',
-      felvitel_napja: ''
+      felvitel_napja: '',
+      minlimit: minlimit,
+      maxlimit: maxlimit,
     };
     ajaxfunc('query.php','get','select',null);
     ajaxfunc('filter.php','post','table',data);
+    page = 1;
+    minlimit = (page - 1) * 10;
+    maxlimit = 10;
     $("#send").on("click",function(){
       var data = {
         szerzo_id: $("#author_id").val(),
@@ -102,31 +139,32 @@ var tablesucces = function(json){
         megnevezes_reszlet: $("#software_name").val(),
         kiadas_eve: $("#realese_year").val(),
         felvitel_napja: $("#adding_date").val(),
+        minlimit: minlimit,
+        maxlimit: maxlimit,
       }
       ajaxfunc('filter.php','post','table',data);
     });
     $("#th-0").on("click",function(){
-      ///console.log(arrayposnull);
-      //console.log(orderarray.toString());
       orderarray = order(orderarray,0);
-
       datatable.order(orderarray);
       datatable.draw();
     });
     $("#th-1").on("click",function(){
-      //console.log(arrayposnull);
-      //console.log(orderarray.toString());
-      //if(arrayposnull[0] != 1){
       orderarray = order(orderarray,1);
       datatable.order(orderarray);
       datatable.draw();
     });
     $("#th-2").on("click",function(){
-      //console.log(arrayposnull);
-      //console.log(orderarray.toString());
-      //if(arrayposnull[0] != 2){
       orderarray = order(orderarray,2);
       datatable.order(orderarray);
       datatable.draw();
+    });
+    $("#right-arrow").on("click",function(){
+      paginate(1);
+    });
+    $("#left-arrow").on("click",function(){
+      if(page>1){
+        paginate(-1);
+      }
     });
   });
